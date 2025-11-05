@@ -1,9 +1,6 @@
 # UIII-act2-tablas-Farmacia-Dulce-Gomez
 crear prompt con IA  para 3 tablas con django  para Farmacia 
 
-
-¡Excelente! Aquí tienes los pasos detallados para tu proyecto de farmacia con Django, incluyendo la estructura de archivos y el código solicitado.
-
 Estructura de Carpetas y Archivos (Paso 29 y 1):
 
 Primero, crearemos la estructura completa de carpetas y archivos.
