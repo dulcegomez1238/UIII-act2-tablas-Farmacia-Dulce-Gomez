@@ -57,7 +57,7 @@ En app_Farmacia/models.py:
 python
 from django.db import models
 
-class Proveedor(models.Model):
+    class Proveedor(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
     direccion = models.TextField(unique=True)
     telefono = models.BigIntegerField(unique=True)
@@ -68,7 +68,7 @@ class Proveedor(models.Model):
     def __str__(self):
         return self.nombre
 
-class Producto(models.Model):
+    class Producto(models.Model):
     id_proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     tipoProducto = models.CharField(max_length=100)
     fechaNacimiento = models.DateField()
@@ -79,7 +79,7 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
 
-class Inventario(models.Model):
+    class Inventario(models.Model):
     id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     id_proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
@@ -90,22 +90,22 @@ class Inventario(models.Model):
     
     def __str__(self):
         return self.nombre
-12.5 Realizar migraciones
+#12.5 Realizar migraciones
 bash
 python manage.py makemigrations
 python manage.py migrate
 13-14. Configurar views.py
 En app_Farmacia/views.py:
 
-python
+#python
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Proveedor, Producto, Inventario
 
-def inicio_farmacia(request):
+    def inicio_farmacia(request):
     return render(request, 'inicio.html')
 
-# VISTAS PARA PROVEEDOR
-def agregar_proveedor(request):
+    # VISTAS PARA PROVEEDOR
+    def agregar_proveedor(request):
     if request.method == 'POST':
         nombre = request.POST['nombre']
         direccion = request.POST['direccion']
@@ -126,15 +126,15 @@ def agregar_proveedor(request):
     
     return render(request, 'proveedor/agregar_proveedor.html')
 
-def ver_proveedor(request):
+    def ver_proveedor(request):
     proveedores = Proveedor.objects.all()
     return render(request, 'proveedor/ver_proveedor.html', {'proveedores': proveedores})
 
-def actualizar_proveedor(request, id):
+    def actualizar_proveedor(request, id):
     proveedor = get_object_or_404(Proveedor, id=id)
     return render(request, 'proveedor/actualizar_proveedor.html', {'proveedor': proveedor})
 
-def realizar_actualizacion_proveedor(request, id):
+    def realizar_actualizacion_proveedor(request, id):
     if request.method == 'POST':
         proveedor = get_object_or_404(Proveedor, id=id)
         proveedor.nombre = request.POST['nombre']
@@ -146,11 +146,11 @@ def realizar_actualizacion_proveedor(request, id):
         proveedor.save()
         return redirect('ver_proveedor')
 
-def borrar_proveedor(request, id):
+    def borrar_proveedor(request, id):
     proveedor = get_object_or_404(Proveedor, id=id)
     proveedor.delete()
     return redirect('ver_proveedor')
-15-23. Crear estructura de templates
+#15-23. Crear estructura de templates
 
 Estructura de carpetas:
 text
@@ -167,12 +167,11 @@ app_Farmacia/
 │       ├── actualizar_proveedor.html
 │       └── borrar_proveedor.html
 Archivos templates:
-base.html:
-
+#base.html:
 html
 <!DOCTYPE html>
-<html lang="es">
-<head>
+    <html lang="es">
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Farmacia</title>
@@ -203,8 +202,8 @@ html
             border: none;
         }
     </style>
-</head>
-<body>
+    </head>
+    <body>
     {% include 'navbar.html' %}
     
     <div class="container-fluid">
@@ -220,12 +219,12 @@ html
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-navbar.html:
+    </body>
+    </html>
+#navbar.html:
 
-html
-<nav class="navbar navbar-expand-lg navbar-dark">
+    html
+    <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'inicio_farmacia' %}">
             <i class="fas fa-clinic-medical"></i> Sistema de Administración Farmacia
@@ -281,14 +280,14 @@ html
             </ul>
         </div>
     </div>
-</nav>
+    </nav>
 
 <!-- Font Awesome -->
-<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-footer.html:
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    footer.html:
 
-html
-<footer class="bg-dark text-white text-center py-3 mt-5 fixed-bottom">
+    html
+    <footer class="bg-dark text-white text-center py-3 mt-5 fixed-bottom">
     <div class="container">
         <p class="mb-0">
             &copy; {% now "Y" %} Todos los derechos reservados | 
@@ -296,14 +295,14 @@ html
             Creado por Alumna Dulce Gomez, Cbtis 128
         </p>
     </div>
-</footer>
-inicio.html:
+    </footer>
+#inicio.html:
 
-html
-{% extends 'base.html' %}
+    html
+    { % extends 'base.html' %}
 
-{% block content %}
-<div class="container mt-4">
+    {% block content %}
+    <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="card">
@@ -355,15 +354,15 @@ html
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
-proveedor/agregar_proveedor.html:
+    </div>
+    {% endblock %}
+#proveedor/agregar_proveedor.html:
 
-html
-{% extends 'base.html' %}
+    html
+    {% extends 'base.html' %}
 
-{% block content %}
-<div class="container mt-4">
+    {% block content %}
+    <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="card">
@@ -418,15 +417,15 @@ html
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
-proveedor/ver_proveedor.html:
+    </div>
+    {% endblock %}
+#proveedor/ver_proveedor.html:
 
-html
-{% extends 'base.html' %}
+    html
+    {% extends 'base.html' %}
 
-{% block content %}
-<div class="container mt-4">
+    {% block content %}
+    <div class="container mt-4">
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h3 class="text-center">Lista de Proveedores</h3>
@@ -483,15 +482,15 @@ html
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
-proveedor/actualizar_proveedor.html:
+    </div>
+    {% endblock %}
+#proveedor/actualizar_proveedor.html:
 
 html
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="container mt-4">
+    {% block content %}
+    <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="card">
@@ -546,9 +545,9 @@ html
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
-24. Crear urls.py en app_Farmacia
+    </div>
+    {% endblock %}
+#24. Crear urls.py en app_Farmacia
 En app_Farmacia/urls.py:
 
 python
