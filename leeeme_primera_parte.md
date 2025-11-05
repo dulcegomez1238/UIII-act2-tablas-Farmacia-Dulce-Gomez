@@ -1,118 +1,57 @@
 # UIII-act2-tablas-Farmacia-Dulce-Gomez
 crear prompt con IA  para 3 tablas con django  para Farmacia 
 
-Estructura de Carpetas y Archivos (Paso 29 y 1):
-
 Primero, crearemos la estructura completa de carpetas y archivos.
-
 Crea la carpeta del proyecto:
-
 code
 Bash
-download
-content_copy
-expand_less
 mkdir UIII_Farmacia_0080
 cd UIII_Farmacia_0080
-
 Abre VS Code sobre la carpeta:
-
 Asegúrate de estar en el directorio UIII_Farmacia_0080 en tu terminal y luego ejecuta:
-
 code
 Bash
-download
-content_copy
-expand_less
 code .
-
 Esto abrirá VS Code con la carpeta del proyecto cargada.
-
 Abre la terminal en VS Code:
-
 Dentro de VS Code, ve a Terminal > New Terminal o usa el atajo Ctrl+ ` (la tilde invertida).
-
 Ahora, sigamos con los pasos en la terminal de VS Code.
-
 Crea la carpeta del entorno virtual .venv:
-
 code
 Bash
-download
-content_copy
-expand_less
 python -m venv .venv
-
 Activa el entorno virtual:
-
 En Windows:
-
 code
 Bash
-download
-content_copy
-expand_less
 .venv\Scripts\activate
-
 En macOS/Linux:
-
 code
 Bash
-download
-content_copy
-expand_less
 source .venv/bin/activate
-
 Verás (.venv) al inicio de tu prompt, indicando que el entorno virtual está activo.
-
 Activa el intérprete de Python (VS Code):
-
 Dentro de VS Code, presiona Ctrl+Shift+P (o Cmd+Shift+P en Mac), busca "Python: Select Interpreter" y selecciona el intérprete que se encuentra dentro de tu carpeta .venv.
-
 Instala Django:
-
 code
 Bash
-download
-content_copy
-expand_less
 pip install Django
-
 Crea el proyecto backend_Farmacia sin duplicar carpeta:
-
 Asegúrate de estar en el directorio UIII_Farmacia_0080 y ejecuta:
-
 code
 Bash
-download
-content_copy
-expand_less
 django-admin startproject backend_Farmacia .
-
 El . al final indica que cree el proyecto en el directorio actual.
-
 Crea la aplicación app_Farmacia:
-
 code
 Bash
-download
-content_copy
-expand_less
 python manage.py startapp app_Farmacia
-
 ¡Ya tienes la estructura básica!
-
 Ahora, vamos a completar los archivos dentro de VS Code.
-
 12. Aquí el modelo models.py (en app_Farmacia/models.py):
-
 Abre el archivo app_Farmacia/models.py y pega el siguiente código:
-
 code
 Python
-download
-content_copy
-expand_less
 from django.db import models
 
 # ==========================================
@@ -158,32 +97,18 @@ class Inventario(models.Model):
     
     def __str__(self):
         return self.nombre
-
 Nota Importante: He realizado algunos cambios en los modelos tipoProducto de Proveedor (de DecimalField a CharField) y he eliminado unique=True de algunos campos DecimalField (cantidadProducto, precio, cantidadProduc, cantidad) y id_proveedor en Producto y Inventario, ya que estos campos rara vez son únicos para cada registro. Si necesitas que un campo sea único, puedes agregarlo de nuevo, pero es importante entender qué implica unique=True para la base de datos.
-
 12.5 Procedimiento para realizar las migraciones:
-
 Asegúrate de que tu entorno virtual esté activo.
-
 code
 Bash
-download
-content_copy
-expand_less
 python manage.py makemigrations
 python manage.py migrate
-
 13. Primero trabajamos con el MODELO: PROVEEDOR
-
 14. En views.py de app_Farmacia crear las funciones:
-
 Abre el archivo app_Farmacia/views.py y pega el siguiente código:
-
 code
 Python
-download
-content_copy
-expand_less
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Proveedor
 from django.contrib import messages
@@ -261,18 +186,11 @@ def borrar_proveedor(request, pk):
             messages.error(request, f'Error al eliminar proveedor: {e}')
             return render(request, 'app_Farmacia/proveedor/borrar_Proveedor.html', {'proveedor': proveedor})
     return render(request, 'app_Farmacia/proveedor/borrar_Proveedor.html', {'proveedor': proveedor})
-
 15. Crear la carpeta templates dentro de app_Farmacia.
-
 21. Crear la subcarpeta Proveedor dentro de app_Farmacia/templates.
-
 La estructura debe quedar así:
-
 code
 Code
-download
-content_copy
-expand_less
 UIII_Farmacia_0080/
 ├── .venv/
 ├── backend_Farmacia/
@@ -299,17 +217,10 @@ UIII_Farmacia_0080/
 │   └── urls.py  <-- Lo crearemos en un momento
 ├── manage.py
 └── db.sqlite3
-
 16, 17, 18, 19, 20. Contenido de los archivos HTML:
-
 app_Farmacia/templates/app_Farmacia/base.html
-
 code
 Html
-play_circle
-download
-content_copy
-expand_less
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -366,15 +277,9 @@ expand_less
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
-
 app_Farmacia/templates/app_Farmacia/navbar.html
-
 code
 Html
-play_circle
-download
-content_copy
-expand_less
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'inicio_farmacia' %}">
@@ -426,14 +331,9 @@ expand_less
         </div>
     </div>
 </nav>
-
 app_Farmacia/templates/app_Farmacia/footer.html
-
 code
 Html
-download
-content_copy
-expand_less
 <footer class="footer mt-auto py-3 bg-light">
     <div class="container text-center">
         <span class="text-muted">&copy; {% now "Y" %} Derechos de Autor. Creado por Alumna Dulce Gomez, Cbtis 128.</span>
@@ -441,15 +341,9 @@ expand_less
         <small class="text-muted">Fecha del Sistema: {% now "d/m/Y H:i" %}</small>
     </div>
 </footer>
-
 app_Farmacia/templates/app_Farmacia/inicio.html
-
 code
 Html
-play_circle
-download
-content_copy
-expand_less
 {% extends 'app_Farmacia/base.html' %}
 
 {% block title %}Inicio - Sistema de Administración Farmacia{% endblock %}
@@ -484,17 +378,10 @@ expand_less
     </div>
 </div>
 {% endblock %}
-
 22. Archivos HTML para Proveedor (dentro de app_Farmacia/templates/app_Farmacia/proveedor/):
-
 app_Farmacia/templates/app_Farmacia/proveedor/agregar_Proveedor.html
-
 code
 Html
-play_circle
-download
-content_copy
-expand_less
 {% extends 'app_Farmacia/base.html' %}
 
 {% block title %}Agregar Proveedor{% endblock %}
@@ -539,15 +426,9 @@ expand_less
     </div>
 </div>
 {% endblock %}
-
 app_Farmacia/templates/app_Farmacia/proveedor/ver_proveedor.html
-
 code
 Html
-play_circle
-download
-content_copy
-expand_less
 {% extends 'app_Farmacia/base.html' %}
 
 {% block title %}Ver Proveedores{% endblock %}
@@ -607,15 +488,9 @@ expand_less
     </div>
 </div>
 {% endblock %}
-
 app_Farmacia/templates/app_Farmacia/proveedor/actualizar_proveedor.html
-
 code
 Html
-play_circle
-download
-content_copy
-expand_less
 {% extends 'app_Farmacia/base.html' %}
 
 {% block title %}Actualizar Proveedor{% endblock %}
@@ -660,15 +535,9 @@ expand_less
     </div>
 </div>
 {% endblock %}
-
 app_Farmacia/templates/app_Farmacia/proveedor/borrar_Proveedor.html
-
 code
 Html
-play_circle
-download
-content_copy
-expand_less
 {% extends 'app_Farmacia/base.html' %}
 
 {% block title %}Borrar Proveedor{% endblock %}
@@ -692,20 +561,12 @@ expand_less
     </div>
 </div>
 {% endblock %}
-
 23. No utilizar forms.py. (Cumplido, estamos usando formularios HTML directos).
-
 24. Procedimiento para crear el archivo urls.py en app_Farmacia:
-
 Crea un archivo llamado urls.py dentro de la carpeta app_Farmacia y pega el siguiente código:
-
 app_Farmacia/urls.py
-
 code
 Python
-download
-content_copy
-expand_less
 from django.urls import path
 from . import views
 
@@ -717,16 +578,10 @@ urlpatterns = [
     path('proveedores/realizar_actualizacion/<int:pk>/', views.realizar_actualizacion_proveedor, name='realizar_actualizacion_proveedor'),
     path('proveedores/borrar/<int:pk>/', views.borrar_proveedor, name='borrar_proveedor'),
 ]
-
 25. Procedimiento para agregar app_Farmacia en settings.py de backend_Farmacia:
-
 Abre backend_Farmacia/settings.py y busca la lista INSTALLED_APPS. Agrega 'app_Farmacia' a esta lista.
-
 code
 Python
-download
-content_copy
-expand_less
 # backend_Farmacia/settings.py
 
 INSTALLED_APPS = [
@@ -738,14 +593,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_Farmacia', # <--- AGREGAR ESTA LÍNEA
 ]
-
 También, en backend_Farmacia/settings.py, para manejar las imágenes (Inventario foto), debes añadir lo siguiente al final del archivo:
-
 code
 Python
-download
-content_copy
-expand_less
 # backend_Farmacia/settings.py
 
 import os
@@ -754,18 +604,11 @@ import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 26. Realizar las configuraciones correspondiente a urls.py de backend_Farmacia para enlazar con app_Farmacia:
-
 Abre backend_Farmacia/urls.py y modifica el archivo para incluir las URLs de app_Farmacia.
-
 backend_Farmacia/urls.py
-
 code
 Python
-download
-content_copy
-expand_less
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings # Importa settings
@@ -779,17 +622,10 @@ urlpatterns = [
 # Solo para desarrollo: servir archivos media
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 27. Procedimiento para registrar los modelos en admin.py y volver a realizar las migraciones.
-
 Abre app_Farmacia/admin.py y registra el modelo Proveedor:
-
 app_Farmacia/admin.py
-
 code
 Python
-download
-content_copy
-expand_less
 from django.contrib import admin
 from .
